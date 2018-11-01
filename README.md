@@ -7,6 +7,6 @@ Trabalho de grafos de Estrutura de dados II
 
 ## Trabalho Funcionando
 
-* [link](https://leonerd42.github.io/grafos-v2/)
+* [link](https://leonerd42.github.io/Trabalho-grafos/)
 
 Ainda em desenvolvimento
