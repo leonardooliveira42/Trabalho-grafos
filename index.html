@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="style/style.css">
+
+        <title> Teoria dos Grafos </title>
+
+        <script src="./js/dist/vivagraph.js"></script>
+        <script src="./js/Queue.src.js"></script>
+    </head>
+    <body>
+        <!-- BARRA DE NAVEGAÇÃO MAIS SOFITISCADA -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#"> Manipulação do Grafo </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                <!--<li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>-->
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="InserirVertice()">Inserir Vértice </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-toggle="modal" data-target="#inserirArestas" onclick="ListarVertices()">Conectar Vértices </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Excluir
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalRemocao" onclick="ListarRemoverVertice()" > Excluir Vértice </a>
+                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalRemocaoAresta" onclick="ListarVerticeRemoverAresta()"> Excluir Aresta</a>
+                    <a class="dropdown-item" href="#" onclick="DeletarGrafo()" > Excluir Grafo </a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Busca
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
+                        <a class="dropdown-item" href="#" onclick="InicialBusca(1)" data-toggle="modal" data-target="#modalProfundidade" > Busca em Profundidade </a>
+                        <a class="dropdown-item" href="#" onclick="InicialBusca(2)" data-toggle="modal" data-target="#modalLargura"> Busca em Largura </a>
+                        <a class="dropdown-item" href="#" onclick="Dijkstra()" data-toggle="modal" data-target="#modalDijkstra"> Dijkstra </a>
+                        <a class="dropdown-item" href="#" onclick="OrdenacaoTopologica()" data-toggle="modal" data-target="#modalOrdenacao"> Ordenação Topologica </a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <br>    
+
+        <div class="container">
+            <div class="templates_grafos">
+                <h5> Grafos Templates </h5>
+                <!-- Gerar grafos automaticamente-->
+                <button type="button" class="btn btn-dark" onclick="GerarGrafo(1)"> Gerar Grafo 1 </button>
+      
+                <button type="button" class="btn btn-dark" onclick="GerarGrafo(2)"> Gerar Grafo 2 </button>
+
+                <button type="button" class="btn btn-dark" onclick="GerarGrafo(3)"> Exemplo Aula </button>
+            </div>
+
+            <svg class='grafo' id="display-canvas"></svg>
+        </div> <!-- FIM DA DIV CONTAINER -->
+
+        <!-- MODAL PARA INSERÇÃO ARESTAS - CONECTAR VÉRTICES -->
+        <div class="modal fade bd-example-modal-lg" id="inserirArestas" tabindex="-1" role="dialog" aria-labelledby="inserirArestasLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-sm">
+                                <h5 class="modal-title" id="inserirArestasLabel"> Conectar Vértices </h5>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm">
+                                <label for="selecionar-arestas"> Origem </label>
+                                <div class="input-group-text">
+                                    <select class="custom-select" id="selecionar-arestas">                               
+                                    </select> 
+                                </div> 
+                            </div>
+                            <div class="col-sm">
+                                <label for="peso_aresta"> Peso </label>
+                                <div class="input-group-text">
+                                    <input type="number" id="peso_aresta" value="1" min='1'>
+                                </div>
+                            </div>
+                            <div class="col-sm">
+                                <label for="direcao"> Direção </label>
+                                <div class="input-group-text">
+                                    <input type="radio" name='direcao' value='1' checked> Não Direcional
+                                </div>
+                                <div class="input-group-text">
+                                    <input type="radio" name='direcao' value='2'> Direcional 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">                                             
+                    
+                    Selecione os vértices para Conectar:  
+                    <div class="selecao_dos_outros_vertices" id="lista_vertices" aria-hidden="true">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"> Fechar </button>
+                <button type="button" class="btn btn-primary" onclick='InserirArestas()' data-dismiss="modal"> Conectar </button>
+                </div>
+            </div>
+            </div>
+        </div> <!-- FIM DO MODAL DE INSERÇÃO DE ARESTA -->
+
+        <!-- MODAL DE REMOÇÃO DE UM VÉRTICE -->
+        <div class="modal fade bd-example-modal-lg" id="modalRemocao" tabindex="-1" role="dialog" aria-labelledby="modalRemocaoLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="modalRemocaoLabel"> Remoção de Vértice </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+                    <div class="modal-body">
+                        Selecione o vértice para ser removido
+                        <div class="input-group-text">
+                            <select class="custom-select" onchange()="RemoverVertice()" id="remover-vertice">                               
+                            </select> 
+                        </div>  
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"> Fechar </button>
+                    <button type="button" class="btn btn-primary" onclick="RemoverVertice()" data-dismiss="modal"> Remover </button>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- FIM DO MODAL DE REMOÇÃO DE UM VÉRTICE -->
+
+        <!-- MODAL REMOÇÃO ARESTAS -->
+        <div class="modal fade bd-example-modal-lg" id="modalRemocaoAresta" tabindex="-1" role="dialog" aria-labelledby="modalRemocaoArestaLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="modalRemocaoArestaLabel"> Remover Aresta </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">        
+                    Selecione o primeiro vértice
+                    <div class="input-group-text">
+                        <select class="custom-select" id="primeiro_vertice_aresta_remocao">                               
+                        </select> 
+                    </div>                                                             
+                    
+                    Selecione o segundo vértice:   
+                    <div class="selecao_dos_outros_vertices" id="lista_vertices">
+                        <select class="custom-select" id="segundo_vertice_aresta_remocao">                               
+                        </select> 
+                    </div>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"> Fechar </button>
+                <button type="button" class="btn btn-primary" onclick='RemoverAresta()' data-dismiss="modal"> Remover Aresta </button>
+                </div>
+            </div>
+            </div>
+        </div> <!-- FIM DO MODAL DE REMOÇÃO DAS ARESTAS -->
+
+        <!-- AQUI COMEÇA OS MODAIS DOS TIPOS DE BUSCA -->
+        <!-- MODAL DE BUSCA EM PROFUNDIDADE -->
+        <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="modalProfundidade" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-sm">
+                                    <h5 class="modal-title" id="exampleModalLongTitle"> Busca em Profundidade </h5>
+                                </div>
+                            </div>  
+                            <div class="row">
+                                <div class="col-sm">
+                                    <label for="listaIniciaProfundidade"> Vértice Inicial </label>
+                                    <div class="input-group mb-3">    
+                                        <select class="custom-select" id="listaIniciaProfundidade">
+                                        </select>
+                                        <div class="input-group-append">
+                                            <button type="button" class="btn btn-success" onclick="BuscaEmProfundidade()"> Iniciar </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    
+                    <div class="modal-body" id="bodyModalProfundidade">
+                        <table class="table table-dark">
+                            <thead id="thead_Profundidade">
+                            </thead>
+                            <tbody id="tbody_Profundidade">
+                            </tbody>
+                        </table>
+                        <div class="alert alert-success" role="alert" id="alertProfundidadeOrdem"> 
+                            Ordem de visita:  
+                        </div>
+                    <!-- <button type="button" class="btn btn-success" onclick="MostrarLinks()"> Mostra Links </button> -->
+                    
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal"> Fechar </button>
+                        <button type="button" class="btn btn-secondary" onclick="Limpar()"> Limpar </button>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- FINAL DO MODAL DE BUSCA EM PROFUNDIDADE -->
+
+        <!-- MODAL DE BUSCA EM LARGURA -->
+        <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="modalLargura" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-sm">
+                                        <h5 class="modal-title" id="exampleModalLongTitle"> Busca em Largura </h5>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm">
+                                        <label for="listaIniciaLargura"> Vértice Inicial </label>
+                                        <div class="input-group mb-3">    
+                                            <select class="custom-select" id="listaIniciaLargura">
+                                            </select>
+                                            <div class="input-group-append">
+                                                <button type="button" class="btn btn-success" onclick="BuscaEmLargura()"> Iniciar </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                            
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div> <!-- FIM MODAL-HEADER -->
+                        <div class="modal-body" id="bodyModalLargura">
+                            <table class="table table-dark">
+                                <thead id="thead_Largura">
+                                </thead>
+                                <tbody id="tbody_Largura">
+                                </tbody>
+                            </table>
+                            <div class="alert alert-success" role="alert" id="alertLarguraOrdem"> 
+                                Ordem de visita:  
+                            </div>
+                            <div class="alert alert-info" role="alert" id="alertLarguraDistancia"> 
+                                Vetor distância:  
+                                <table class="table table-light">
+                                    <thead id="thead_Largura_dist">
+                                    </thead>
+                                    <tbody id="tbody_Largura_dist">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal"> Fechar </button>
+                            <button type="button" class="btn btn-secondary" onclick="Limpar()"> Limpar </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL DE DIJKSTRA -->
+        <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="modalDijkstra" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle"> Dijkstra </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            ...
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL DE ORDENAÇÃO TOPOLOGICA  -->
+        <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="modalOrdenacao" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle"> Ordenação Topologica </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            ...
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RODAPÉ DO SITE -->
+        <div class="card-footer text-muted bg-dark">
+            <p> Desenvolvido por Leonardo Oliveira </p> 
+            <p> Estrutura de dados II </p>
+        </div>
+      
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="bootstrap/js/bootstrap.min.js"></script>
+        <script src="./js/Grafos.js"></script>
+        <script src="./js/busca.js"></script>
+    </body>
+</html>

@@ -1,0 +1,26 @@
+
+body{
+    margin: 0px; 
+    padding: 0px;
+    background: bg-secondary; 
+}
+
+.menu{
+    height: 200px;
+}
+
+.grafo{
+    width: 100%;
+    height: 500px;
+    background: white; 
+    border: 5px solid black; 
+    margin-bottom: 20px;
+}
+
+.templates_grafos{
+    margin: 30px;
+}
+
+.IniciarBuscaProfundidade{
+    margin: 5px;
+}
