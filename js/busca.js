@@ -8,6 +8,7 @@
     var Links = [];
 
     function InicialBusca(tipoBusca){
+        var numeroVertices = 0;
         switch(tipoBusca){
             case 1: //listando os vértices no modal da busca em profundidade
                 $('#listaIniciaProfundidade').empty(); 
@@ -20,6 +21,21 @@
                 Graph.forEachNode(function(node){
                     $('#listaIniciaLargura').append('<option value=' + node.id + '> ' + node.id +' </option>');
                 });
+                break; 
+            case 3: 
+                Graph.forEachNode(function(node){
+                    numeroVertices++; 
+                });
+                if(numeroVertices != 0){
+                    $('#aviso').empty(); 
+                    $('#listaIniciaDijkstra').empty(); 
+                    Graph.forEachNode(function(node){
+                        $('#listaIniciaDijkstra').append('<option value=' + node.id + '> ' + node.id +' </option>');
+                    });
+                }else{
+                    $('#aviso').empty(); 
+                    $("#aviso").append('<div class="alert alert-warning" role="alert"> Não existe grafo! </div>');
+                }
                 break; 
         }
     }
@@ -116,7 +132,7 @@
                     };
                     ContLinks++; 
                     //Cálculo da distancia
-                    nova_distancia = vetorDist[vertice] + aresta.data;                //Modificar depois para quando for colocado o valor da aresta
+                    nova_distancia = vetorDist[vertice] + aresta.data;               
                     if(nova_distancia < vetorDist[verticeLinkado.id])
                         vetorDist[verticeLinkado.id] = nova_distancia;    
 
@@ -132,6 +148,83 @@
         if(auxiliar != undefined){
             RecursaoLargura(auxiliar,vetorMarcacao,vetorDist,fila);
         }
+    }
+
+    function Dijkstra(){
+        var verticeInicial = $('#listaIniciaDijkstra').val(),
+            lista = new List(contador), 
+            vetorMarcacao = [], 
+            vetorDistancia = []; 
+
+        //Zerando 
+        Links = [];
+        ContLinks = 0; 
+
+        LimparDijkstra(); 
+
+        //Preenchendo os vetores auxiliares 
+        for(var i=0; i<contador; i++){
+            vetorMarcacao[i] = 0; 
+            vetorDistancia[i] = Infinity; 
+        }
+
+        //Adicionando os elementos na lista 
+        Graph.forEachNode(function(node){
+            lista.Add(node.id); 
+        });       
+
+        //Zerando a primeira distancia
+        vetorDistancia[verticeInicial] = 0; 
+        RecursaoDijkstra(verticeInicial.toString(), vetorMarcacao, vetorDistancia, lista);
+
+        ResultadoDijkstra(Links, vetorDistancia); 
+    }
+
+    function RecursaoDijkstra(vertice, Marcacao, dist, lista){
+
+        //console.log('Vértice atual: ' + vertice); 
+        Marcacao[vertice] = 1; 
+
+        var menorDist = {
+            'toId': null, 
+            'peso': Infinity
+        }; 
+
+        if(lista.Count() !== 0){
+            lista.RemoveAt(vertice);
+
+            Graph.forEachLinkedNode(vertice,function(linkedNode,aresta){
+                //console.log("Vértice linkado: " + linkedNode.id + " peso: " + aresta.data);  
+
+                if(Direcional() == false || (Direcional() == true && aresta.fromId == vertice)){
+                    //Distancia
+                    nova_distancia = dist[vertice] + aresta.data;               
+                    if(nova_distancia < dist[linkedNode.id])
+                        dist[linkedNode.id] = nova_distancia;
+                        
+                    if(Marcacao[linkedNode.id] == 0){
+                        
+                        
+
+                        if(aresta.data < menorDist.peso){
+                            menorDist.toId = linkedNode.id; 
+                            menorDist.peso = aresta.data;
+                        }
+                    }                    
+                }
+            });
+
+            if(menorDist.toId != null){
+                Links[ContLinks] = {
+                    'fromId': vertice, 
+                    'toId': menorDist.toId.toString(),
+                    'peso': menorDist.peso
+                }
+                ContLinks++; 
+                RecursaoDijkstra(menorDist.toId.toString(), Marcacao,dist,lista);   
+            }
+                
+        }       
     }
 
     //Função para mostrar os resultados da busca nos modals de cada tipo de busca
@@ -176,6 +269,43 @@
         }
     }
 
+    function ResultadoDijkstra(vetorDeLinks,vetDist){
+
+        LimparDijkstra();
+
+        $('#thead_dijkstra').append('<tr> <th> Passagem </th> <th> Do vértice </th> <th> Para o vértice </th> </tr>');
+        for(var i=0; i<vetorDeLinks.length; i++){
+            if(i==0)
+                $('#tbody_dijkstra').append('<tr> <td> '+ (i+1) +'</td> <td> '+ vetorDeLinks[i].fromId + ' (V<sub>0</sub>) </td> <td> '+ vetorDeLinks[i].toId +'('+ vetorDeLinks[i].peso+ ')  </td> </tr>')
+            else $('#tbody_dijkstra').append('<tr> <td> '+ (i+1) +'</td> <td> '+ vetorDeLinks[i].fromId + ' </td> <td> '+ vetorDeLinks[i].toId +'('+ vetorDeLinks[i].peso+ ')  </td> </tr>')
+        }
+
+        $('#titulo-dist').empty(); 
+        $('#titulo-dist').append('Vetor distancia');
+
+        $('#thead_dijkstra_dist').append('<tr>');
+        for(var i=0; i<vetDist.length; i++){
+            if(i==0){
+                $('#thead_dijkstra_dist').append('<th> Vértice </th>');
+            }
+            $('#thead_dijkstra_dist').append('<th> '+ i +' </th>');
+        }
+        $('#thead_dijkstra_dist').append('</tr>');
+
+        //Os dados
+        $('tbody_dijkstra_dist').append('<td>');
+        for(var i=0; i<vetDist.length; i++){
+            if(i==0){
+                $('#tbody_dijkstra_dist').append('<th> Distância </th>');
+            }
+            $('#tbody_dijkstra_dist').append('<td> '+ vetDist[i] +' </td>');
+        }
+        $('tbody_dijkstra_dist').append('</td>');
+
+
+
+    }
+
     function Limpar(){
         //Limpando busca em profundidade 
         $('#alertProfundidadeOrdem').empty();
@@ -193,16 +323,21 @@
 
         $('#thead_Largura_dist').empty(); 
         $('#tbody_Largura_dist').empty(); 
-
     }
 
+    function LimparDijkstra(){
+        
+        $('#thead_dijkstra').empty(); 
+        $('#tbody_dijkstra').empty(); 
+
+        $('#thead_dijkstra_dist').empty(); 
+        $('#tbody_dijkstra_dist').empty(); 
+    }
     function MostrarLinks(){
         console.dir(Links);
     }
 
-    function Dijkstra(){
-        console.log("Dijkstra"); 
-    }
+    
 
     function OrdenacaoTopologica(){
         console.log("Ordenacao topologica"); 

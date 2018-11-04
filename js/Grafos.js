@@ -196,14 +196,14 @@
                     $('#listaAdjacenciaBody').append('<tr id="verticeInfo'+node.id+'"> <td> '+node.id+' </td> </tr>');
                     Graph.forEachLinkedNode(node.id.toString(),function(linkedNode,aresta){
                         if(Direcional() == false || (Direcional() == true && (node.id == aresta.fromId))){   //Verificando se é direcional ou não
-                            $('#verticeInfo'+node.id+'').append('<td>'+linkedNode.id+' ( Peso: '+aresta.data+ ') </td>')
+                            $('#verticeInfo'+node.id+'').append('<td>'+linkedNode.id+' ( P: '+aresta.data+ ') </td>')
                         }
                     });
                 });               
 
 
             }
-            console.log("Numero de vértices: " + numeroVertices + " Numero de arestas: " + numeroArestas);
+            //console.log("Numero de vértices: " + numeroVertices + " Numero de arestas: " + numeroArestas);
     }
     
 

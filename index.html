@@ -79,7 +79,7 @@
                             <a href="#" onclick="InicialBusca(2)" data-toggle="modal" data-target="#modalLargura"> Busca em Largura </a>
                         </li>
                         <li>
-                            <a href="#" onclick="Dijkstra()" data-toggle="modal" data-target="#modalDijkstra"> Dijkstra </a>
+                            <a href="#" onclick="InicialBusca(3)" data-toggle="modal" data-target="#modalDijkstra"> Dijkstra </a>
                         </li>
                         <li>
                             <a href="#" onclick="OrdenacaoTopologica()" data-toggle="modal" data-target="#modalOrdenacao"> Ordenação topologica </a>
@@ -356,17 +356,48 @@
             <div class="modal-content">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle"> Dijkstra </h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-sm">
+                                    <h5 class="modal-title"> Dijkstra </h5>
+                                </div>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>  
+                            <div class="row">
+                                <div class="col-sm">
+                                    <label for="listaIniciaDijkstra"> Vértice Inicial </label>
+                                    <div class="input-group mb-3">    
+                                        <select class="custom-select" id="listaIniciaDijkstra">
+                                        </select>
+                                        <div class="input-group-append">
+                                            <button type="button" class="btn btn-success" onclick="Dijkstra()"> Iniciar </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                        
+                        </div>
                     </div>
                     <div class="modal-body">
-                        ...
+                        <div id="aviso"> </div>
+                        <!-- Tabela de info do algoritmo dijkstra-->
+                        <table class="table table-dark">
+                            <thead id="thead_dijkstra">
+                            </thead>
+                            <tbody id="tbody_dijkstra">                                
+                            </tbody>
+                        </table>
+                        <div class="display-4" id="titulo-dist"></div>
+                        <table class="table table-info">
+                            <thead id="thead_dijkstra_dist">
+                            </thead>
+                            <tbody id="tbody_dijkstra_dist">
+                            </tbody>
+                        </table>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal"> Fechar </button>
                     </div>
                 </div>
             </div>
@@ -447,6 +478,7 @@
     
     <script src="./js/Grafos.js"></script>
     <script src="./js/busca.js"></script>
+    <script src='./js/List.js'></script>
 </body>
 
 </html>
