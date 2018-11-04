@@ -9,6 +9,9 @@
 
     function InicialBusca(tipoBusca){
         var numeroVertices = 0;
+        Graph.forEachNode(function(node){
+            numeroVertices++; 
+        });
         switch(tipoBusca){
             case 1: //listando os vértices no modal da busca em profundidade
                 $('#listaIniciaProfundidade').empty(); 
@@ -22,10 +25,7 @@
                     $('#listaIniciaLargura').append('<option value=' + node.id + '> ' + node.id +' </option>');
                 });
                 break; 
-            case 3: 
-                Graph.forEachNode(function(node){
-                    numeroVertices++; 
-                });
+            case 3:                 
                 if(numeroVertices != 0){
                     $('#aviso').empty(); 
                     $('#listaIniciaDijkstra').empty(); 
@@ -36,6 +36,20 @@
                     $('#aviso').empty(); 
                     $("#aviso").append('<div class="alert alert-warning" role="alert"> Não existe grafo! </div>');
                 }
+                break; 
+            case 4: 
+            $('#aviso_ordenacao').empty(); 
+            $('#aviso_ordenacao').empty(); 
+                if(numeroVertices != 0){
+                    if(Direcional()){
+                        console.log("Grafo direcional");
+                    }else {                        
+                        $("#aviso_ordenacao").append('<div class="alert alert-warning" role="alert"> O grafo precisa ser direcional! </div>');
+                    }
+                }else {                    
+                    $("#aviso_ordenacao").append('<div class="alert alert-warning" role="alert"> Não existe grafo! </div>');
+                }
+                
                 break; 
         }
     }
