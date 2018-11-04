@@ -58,14 +58,17 @@
 
         Graph.forEachLinkedNode(vertice , function(VerticeConectado,aresta){
             if(vetor[VerticeConectado.id] == 0){
-                
-                Links[ContLinks] = {
-                    "fromId": vertice, 
-                    "toId":VerticeConectado.id
-                }; 
-                ContLinks++; 
-                
-                RecursaoProfundidade(VerticeConectado.id.toString(),vetor,contador);
+                //Se não for direcional ele executa normalmente
+                //Se for direcional ele só entra se o vértice atual for a origem do link
+                if(Direcional() == false || (Direcional() == true && (aresta.fromId == vertice))){ 
+                        Links[ContLinks] = {
+                        "fromId": vertice, 
+                        "toId":VerticeConectado.id
+                    }; 
+                    ContLinks++; 
+                    
+                    RecursaoProfundidade(VerticeConectado.id.toString(),vetor,contador);
+                }
             }
         });
     }
@@ -101,26 +104,26 @@
     function RecursaoLargura(vertice, vetorMarcacao, vetorDist,fila){
         
         vetorMarcacao[vertice] = 1; //Marcando o vértice atual 
-
         Graph.forEachLinkedNode(vertice, function(verticeLinkado, aresta){
-
             if(vetorMarcacao[verticeLinkado.id] == 0){
+                //Se não for direcional ele executa normalmente
+                //Se for direcional ele só entra se o vértice atual for a origem do link
+                if(Direcional() == false || (Direcional() == true && (aresta.fromId == vertice))){
+                    //Marcando o caminho dos vértices
+                    Links[ContLinks] = {
+                        "fromId": vertice,
+                        "toId": verticeLinkado.id
+                    };
+                    ContLinks++; 
+                    //Cálculo da distancia
+                    nova_distancia = vetorDist[vertice] + aresta.data;                //Modificar depois para quando for colocado o valor da aresta
+                    if(nova_distancia < vetorDist[verticeLinkado.id])
+                        vetorDist[verticeLinkado.id] = nova_distancia;    
 
-                //Marcando o caminho dos vértices
-                Links[ContLinks] = {
-                    "fromId": vertice,
-                    "toId": verticeLinkado.id
-                };
-                ContLinks++; 
-
-                //Cálculo da distancia
-                nova_distancia = vetorDist[vertice] + aresta.data;                //Modificar depois para quando for colocado o valor da aresta
-                if(nova_distancia < vetorDist[verticeLinkado.id])
-                    vetorDist[verticeLinkado.id] = nova_distancia;    
-
-                //Marcação e enfileira 
-                vetorMarcacao[verticeLinkado.id] = 1; 
-                fila.enqueue(verticeLinkado.id.toString());
+                    //Marcação e enfileira 
+                    vetorMarcacao[verticeLinkado.id] = 1; 
+                    fila.enqueue(verticeLinkado.id.toString());
+                }
             }        
         });
 

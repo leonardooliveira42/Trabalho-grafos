@@ -7,6 +7,7 @@
 
     //Chamando função para configurar o grafo 
     ConfigurarGrafico(); 
+    Direcional(); 
 
     //Funções para manipular o grafo 
     function InserirVertice (){     //função para inserir um novo vértice
@@ -15,6 +16,66 @@
         contador++; 
 
         renderer.run(); 
+    }
+    //Função para ligar um vértice ao outro
+    function InserirArestas(){
+        //console.log("Inserindo as arestas");
+
+        var verticeSelecionado = $('#selecionar-arestas').val();
+        var pesoAresta = $('#peso_aresta').val(); 
+
+        //Lendo os valores do checkbox selecionados 
+        var select = document.querySelectorAll("input[type='checkbox']:checked"),
+        i = select.length,
+        arr = [],
+        peso;
+
+        while (i--) {
+            arr.push(select[i].value);
+        }
+
+        for(var i=0; i<arr.length; i++){
+            peso = {
+                'from': verticeSelecionado,
+                'to':arr[i]           
+            }
+            Graph.addLink(verticeSelecionado, arr[i],parseInt(pesoAresta));
+        }
+
+        Graph.forEachLink(function(link){
+            console.dir(link);
+            
+        })
+
+    }
+    //Remoção de um vértice
+    function RemoverVertice(){
+
+        var verticeARemover = $('#remover-vertice').val(); 
+
+        Graph.removeNode(verticeARemover);
+        //console.log(verticeARemover);
+    }
+    //Remoção de uma aresta
+    function RemoverAresta(){
+
+        var primeiroVertice = $("#primeiro_vertice_aresta_remocao").val(), 
+            segundoVertice = $("#segundo_vertice_aresta_remocao").val(); 
+
+        Graph.forEachLinkedNode(primeiroVertice, function(linkedNode, link){
+            if(linkedNode.id == segundoVertice)
+                Graph.removeLink(link);
+        });
+
+    }
+    //Deletar todo o grafo
+    function DeletarGrafo(){
+        Graph.forEachNode(function(node){
+            Graph.removeNode(node.id); 
+        });
+        contador = 0; 
+        Renderizar(); 
+
     }
 
     function ListarVertices (){
@@ -44,38 +105,7 @@
                 $('#lista_vertices').append('<div class="input-group-text"> <input type="checkbox" name="arestas" value='+node.id+'> Vértice: '+ node.id+'</div>');
         })
 
-    }
-
-    function InserirArestas(){
-        //console.log("Inserindo as arestas");
-
-        var verticeSelecionado = $('#selecionar-arestas').val();
-        var pesoAresta = $('#peso_aresta').val(); 
-
-        //Lendo os valores do checkbox selecionados 
-        var select = document.querySelectorAll("input[type='checkbox']:checked"),
-        i = select.length,
-        arr = [];
-
-        while (i--) {
-            arr.push(select[i].value);
-        }
-
-        for(var i=0; i<arr.length; i++){
-            Graph.addLink(verticeSelecionado, arr[i],parseInt(pesoAresta));
-            //Graph.addLink(arr[i],verticeSelecionado);
-        }
-        //console.log("Vetor seleção: " + arr);
-    }
-
-    function DeletarGrafo(){
-        Graph.forEachNode(function(node){
-            Graph.removeNode(node.id); 
-        });
-        contador = 0; 
-        Renderizar(); 
-
-    }
+    }    
 
     function ListarVerticeRemoverAresta(){
 
@@ -89,18 +119,6 @@
         });
     }
 
-    function RemoverAresta(){
-
-        var primeiroVertice = $("#primeiro_vertice_aresta_remocao").val(), 
-            segundoVertice = $("#segundo_vertice_aresta_remocao").val(); 
-
-        Graph.forEachLinkedNode(primeiroVertice, function(linkedNode, link){
-            if(linkedNode.id == segundoVertice)
-                Graph.removeLink(link);
-        });
-
-    }
-
     function ListarRemoverVertice(){
 
         $('#remover-vertice').empty(); 
@@ -112,13 +130,82 @@
         });
     }
 
-    function RemoverVertice(){
+    function Direcional(){
+        var dir = document.getElementsByName('direcao'), 
+            result; 
 
-        var verticeARemover = $('#remover-vertice').val(); 
-
-        Graph.removeNode(verticeARemover);
-        //console.log(verticeARemover);
+        for(var i=0; i < dir.length; i++){
+            if(dir[i].checked){
+                if(dir[i].value == 1){  //Direcional
+                    result = true; 
+                }else {                 //Não direcional
+                    result = false; 
+                }                
+                break; 
+            }
+        }
+        return result; 
     }
+
+    function InformacoesGrafo(){
+        var numeroVertices = 0, 
+            numeroArestas = 0,
+            ponderado = 'Não ponderado', 
+            auxDirecao; 
+
+            Graph.forEachNode(function(node){
+                numeroVertices++; 
+            });
+
+            Graph.forEachLink(function(link){
+                numeroArestas++; 
+                if(link.data != 1){
+                    ponderado = 'ponderado'; 
+                }
+            });
+
+            if(numeroVertices == 0){
+                $('#conteudoModalInfo').empty(); 
+                $('#conteudoModalInfo').append('<div class="alert alert-warning" role="alert"> Não existe nenhum vértice </div>');
+            }else {
+                //Limpando o alerta
+                $('#conteudoModalInfo').empty(); 
+
+                //Info dos vértices 
+                $('#numeroVertices').empty(); 
+                $('#numeroVertices').append('Número vértices: ' + numeroVertices); 
+
+                //Info das arestas 
+                $('#numeroArestas').empty(); 
+                $('#numeroArestas').append("Número de arestas: " + numeroArestas);
+
+                //titulo da lista de adjacencia
+                $('#tituloTabelaInfo').empty(); 
+                $('#tituloTabelaInfo').append('<h1 class="text-center"> Lista de adjacências </h1>');
+               if(Direcional()){
+                    auxDirecao = 'direcional';
+               } else auxDirecao = 'não direcional';
+               $('#tituloTabelaInfo').append('<h5 class="text-center"> Grafo '+auxDirecao+' e '+ponderado+' </h5>');
+
+                //Montando o head da tabela
+                $('#listaAdjacenciaHead').empty(); 
+                $('#listaAdjacenciaHead').append('<th> Vértice </th>');                 
+                //Lista os vértices e as suas conexões 
+                $('#listaAdjacenciaBody').empty(); 
+                Graph.forEachNode(function(node){
+                    $('#listaAdjacenciaBody').append('<tr id="verticeInfo'+node.id+'"> <td> '+node.id+' </td> </tr>');
+                    Graph.forEachLinkedNode(node.id.toString(),function(linkedNode,aresta){
+                        if(Direcional() == false || (Direcional() == true && (node.id == aresta.fromId))){   //Verificando se é direcional ou não
+                            $('#verticeInfo'+node.id+'').append('<td>'+linkedNode.id+' ( Peso: '+aresta.data+ ') </td>')
+                        }
+                    });
+                });               
+
+
+            }
+            console.log("Numero de vértices: " + numeroVertices + " Numero de arestas: " + numeroArestas);
+    }
+    
 
 //---------------------------------------------------------------
 
@@ -236,4 +323,8 @@
         });  
     });
 
-
+    $(document).ready(function () {
+        $('#sidebarCollapse').on('click', function () {
+            $('#sidebar').toggleClass('active');
+        });
+    });

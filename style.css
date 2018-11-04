@@ -59,7 +59,7 @@ a:focus {
 #sidebar {
     min-width: 250px;
     max-width: 250px;
-    background: #545454;
+    background: #7386D5;
     color: #fff;
     transition: all 0.3s;
 }
@@ -70,7 +70,7 @@ a:focus {
 
 #sidebar .sidebar-header {
     padding: 20px;
-    background: #282828;
+    background: #6d7fcc;
 }
 
 #sidebar ul.components {
@@ -90,14 +90,14 @@ a:focus {
 }
 
 #sidebar ul li a:hover {
-    color: #000;
+    color: #7386D5;
     background: #fff;
 }
 
 #sidebar ul li.active>a,
 a[aria-expanded="true"] {
     color: #fff;
-    background: #696969;
+    background: #6d7fcc;
 }
 
 a[data-toggle="collapse"] {
@@ -115,7 +115,7 @@ a[data-toggle="collapse"] {
 ul ul a {
     font-size: 0.9em !important;
     padding-left: 30px !important;
-    background: #828282;
+    background: #6d7fcc;
 }
 
 ul.CTAs {
@@ -130,6 +130,16 @@ ul.CTAs a {
     margin-bottom: 5px;
 }
 
+a.download {
+    background: #fff;
+    color: #7386D5;
+}
+
+a.article,
+a.article:hover {
+    background: #6d7fcc !important;
+    color: #fff !important;
+}
 
 /* ---------------------------------------------------
     CONTENT STYLE
@@ -156,12 +166,4 @@ ul.CTAs a {
     #sidebarCollapse span {
         display: none;
     }
-}
-
-.grafo{
-    width: 100%;
-    height: 500px;
-    background: white; 
-    border: 0.5px solid black; 
-    margin-bottom: 20px;
 }
