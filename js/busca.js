@@ -101,7 +101,6 @@
     function RecursaoLargura(vertice, vetorMarcacao, vetorDist,fila){
         
         vetorMarcacao[vertice] = 1; //Marcando o vértice atual 
-
         Graph.forEachLinkedNode(vertice, function(verticeLinkado, aresta){
 
             if(vetorMarcacao[verticeLinkado.id] == 0){
@@ -112,7 +111,6 @@
                     "toId": verticeLinkado.id
                 };
                 ContLinks++; 
-
                 //Cálculo da distancia
                 nova_distancia = vetorDist[vertice] + aresta.data;                //Modificar depois para quando for colocado o valor da aresta
                 if(nova_distancia < vetorDist[verticeLinkado.id])

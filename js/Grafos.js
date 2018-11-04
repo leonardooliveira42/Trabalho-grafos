@@ -16,6 +16,57 @@
 
         renderer.run(); 
     }
+    //Função para ligar um vértice ao outro
+    function InserirArestas(){
+        //console.log("Inserindo as arestas");
+
+        var verticeSelecionado = $('#selecionar-arestas').val();
+        var pesoAresta = $('#peso_aresta').val(); 
+
+        //Lendo os valores do checkbox selecionados 
+        var select = document.querySelectorAll("input[type='checkbox']:checked"),
+        i = select.length,
+        arr = [];
+
+        while (i--) {
+            arr.push(select[i].value);
+        }
+
+        for(var i=0; i<arr.length; i++){
+            Graph.addLink(verticeSelecionado, arr[i],parseInt(pesoAresta));
+            //Graph.addLink(arr[i],verticeSelecionado);
+        }
+        //console.log("Vetor seleção: " + arr);
+    }
+    //Remoção de um vértice
+    function RemoverVertice(){
+
+        var verticeARemover = $('#remover-vertice').val(); 
+
+        Graph.removeNode(verticeARemover);
+        //console.log(verticeARemover);
+    }
+    //Remoção de uma aresta
+    function RemoverAresta(){
+
+        var primeiroVertice = $("#primeiro_vertice_aresta_remocao").val(), 
+            segundoVertice = $("#segundo_vertice_aresta_remocao").val(); 
+
+        Graph.forEachLinkedNode(primeiroVertice, function(linkedNode, link){
+            if(linkedNode.id == segundoVertice)
+                Graph.removeLink(link);
+        });
+
+    }
+    //Deletar todo o grafo
+    function DeletarGrafo(){
+        Graph.forEachNode(function(node){
+            Graph.removeNode(node.id); 
+        });
+        contador = 0; 
+        Renderizar(); 
+
+    }
 
     function ListarVertices (){
 
@@ -44,38 +95,7 @@
                 $('#lista_vertices').append('<div class="input-group-text"> <input type="checkbox" name="arestas" value='+node.id+'> Vértice: '+ node.id+'</div>');
         })
 
-    }
-
-    function InserirArestas(){
-        //console.log("Inserindo as arestas");
-
-        var verticeSelecionado = $('#selecionar-arestas').val();
-        var pesoAresta = $('#peso_aresta').val(); 
-
-        //Lendo os valores do checkbox selecionados 
-        var select = document.querySelectorAll("input[type='checkbox']:checked"),
-        i = select.length,
-        arr = [];
-
-        while (i--) {
-            arr.push(select[i].value);
-        }
-
-        for(var i=0; i<arr.length; i++){
-            Graph.addLink(verticeSelecionado, arr[i],parseInt(pesoAresta));
-            //Graph.addLink(arr[i],verticeSelecionado);
-        }
-        //console.log("Vetor seleção: " + arr);
-    }
-
-    function DeletarGrafo(){
-        Graph.forEachNode(function(node){
-            Graph.removeNode(node.id); 
-        });
-        contador = 0; 
-        Renderizar(); 
-
-    }
+    }    
 
     function ListarVerticeRemoverAresta(){
 
@@ -89,18 +109,6 @@
         });
     }
 
-    function RemoverAresta(){
-
-        var primeiroVertice = $("#primeiro_vertice_aresta_remocao").val(), 
-            segundoVertice = $("#segundo_vertice_aresta_remocao").val(); 
-
-        Graph.forEachLinkedNode(primeiroVertice, function(linkedNode, link){
-            if(linkedNode.id == segundoVertice)
-                Graph.removeLink(link);
-        });
-
-    }
-
     function ListarRemoverVertice(){
 
         $('#remover-vertice').empty(); 
@@ -111,14 +119,7 @@
             $('#remover-vertice').append('<option value=' + node.id + '> ' + node.id +' </option>')
         });
     }
-
-    function RemoverVertice(){
-
-        var verticeARemover = $('#remover-vertice').val(); 
-
-        Graph.removeNode(verticeARemover);
-        //console.log(verticeARemover);
-    }
+    
 
 //---------------------------------------------------------------
 
