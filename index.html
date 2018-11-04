@@ -22,6 +22,7 @@
 </head>
 
 <body>
+    <!-- Barra de navegação -->
     <div class="wrapper">
         <!-- Sidebar  -->
         <nav id="sidebar">
@@ -31,7 +32,21 @@
 
             <ul class="list-unstyled components">
                 <li>
-                    <a href="#"> Informações do grafo </a>
+                    <a href="#exemplosSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"> Exemplos </a>
+                    <ul class="collapse list-unstyled" id="exemplosSubmenu">
+                        <li>
+                            <a href="#" onclick="GerarGrafo(1)"> Exemplo 1 </a>
+                        </li>
+                        <li>
+                            <a href="#" onclick="GerarGrafo(2)"> Exemplo 2</a>
+                        </li>
+                        <li>
+                            <a href="#" onclick="GerarGrafo(3)"> Exemplo 3</a>
+                        </li>
+                        <li>
+                            <a href="#" onclick="GerarGrafo(4)"> Exemplo 4</a>
+                        </li>
+                    </ul>
                 </li>
                 <li>
                     <a href="#" onclick="InserirVertice()"> Inserir Vértice </a>
@@ -72,27 +87,11 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#exemplosSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"> Exemplos </a>
-                    <ul class="collapse list-unstyled" id="exemplosSubmenu">
-                        <li>
-                            <a href="#" onclick="GerarGrafo(1)"> Exemplo 1 </a>
-                        </li>
-                        <li>
-                            <a href="#" onclick="GerarGrafo(2)"> Exemplo 2</a>
-                        </li>
-                        <li>
-                            <a href="#" onclick="GerarGrafo(3)"> Exemplo 3</a>
-                        </li>
-                        <li>
-                            <a href="#" onclick="GerarGrafo(4)"> Exemplo 4</a>
-                        </li>
-                    </ul>
+                    <a href="#" data-toggle='modal' data-target="#modalInfo" onclick="InformacoesGrafo()"> Informações do grafo </a>
                 </li>
+                
                 <li>
                     <a href="#"> Teoria </a>
-                </li>
-                <li>
-                    <a href="#"> Desenvolvedores </a>
                 </li>
             </ul>
         </nav>
@@ -103,9 +102,9 @@
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
 
-                    <button type="button" id="sidebarCollapse" class="btn btn-info">
+                    <button type="button" id="sidebarCollapse" class="btn btn-primary">
                         <i class="fas fa-align-left"></i>
-                        <span> Fechar menu </span>
+                        <span> Menu </span>
                     </button>
                     
                     
@@ -119,13 +118,13 @@
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                       <div class="input-group-text">
-                                        <input type="radio" name="direcao" aria-label="Checkbox for following text input">
+                                        <input type="radio" name="direcao" value='1' aria-label="Checkbox for following text input">
                                       </div>
                                     </div>
                                     <span class="input-group-text"> Direcional </span>
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">
-                                          <input type="radio" name="direcao" aria-label="Checkbox for following text input" checked>
+                                          <input type="radio" name="direcao" value='0' aria-label="Checkbox for following text input" checked>
                                         </div>
                                       </div>
                                       <span class="input-group-text"> Não direcional </span>
@@ -396,6 +395,47 @@
             </div>
         </div>
     </div>
+
+    <!-- MODAL DE INFORMAÇÕES DO GRAFO -->
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="modalInfo" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title"> Informações Grafo </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div id="conteudoModalInfo">
+                            </div>
+                            <div>
+                                <span id="numeroVertices">
+                                </span>
+                            </div>
+                            <div>
+                                <span id="numeroArestas">
+                                </span>
+                            </div> 
+                            <div id="tituloTabelaInfo">
+                            </div>
+                            <table class="table table-info">
+                                <thead id="listaAdjacenciaHead">
+                                </thead>
+                                <tbody id="listaAdjacenciaBody">
+                                </tbody>
+                            </table>
+                            
+                            
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal"> Fechar </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     <!-- jQuery CDN - Slim version (=without AJAX) -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

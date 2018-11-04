@@ -7,6 +7,7 @@
 
     //Chamando função para configurar o grafo 
     ConfigurarGrafico(); 
+    Direcional(); 
 
     //Funções para manipular o grafo 
     function InserirVertice (){     //função para inserir um novo vértice
@@ -26,17 +27,26 @@
         //Lendo os valores do checkbox selecionados 
         var select = document.querySelectorAll("input[type='checkbox']:checked"),
         i = select.length,
-        arr = [];
+        arr = [],
+        peso;
 
         while (i--) {
             arr.push(select[i].value);
         }
 
         for(var i=0; i<arr.length; i++){
+            peso = {
+                'from': verticeSelecionado,
+                'to':arr[i]           
+            }
             Graph.addLink(verticeSelecionado, arr[i],parseInt(pesoAresta));
-            //Graph.addLink(arr[i],verticeSelecionado);
         }
-        //console.log("Vetor seleção: " + arr);
+
+        Graph.forEachLink(function(link){
+            console.dir(link);
+            
+        })
+
     }
     //Remoção de um vértice
     function RemoverVertice(){
@@ -118,6 +128,82 @@
         Graph.forEachNode(function(node){
             $('#remover-vertice').append('<option value=' + node.id + '> ' + node.id +' </option>')
         });
+    }
+
+    function Direcional(){
+        var dir = document.getElementsByName('direcao'), 
+            result; 
+
+        for(var i=0; i < dir.length; i++){
+            if(dir[i].checked){
+                if(dir[i].value == 1){  //Direcional
+                    result = true; 
+                }else {                 //Não direcional
+                    result = false; 
+                }                
+                break; 
+            }
+        }
+        return result; 
+    }
+
+    function InformacoesGrafo(){
+        var numeroVertices = 0, 
+            numeroArestas = 0,
+            ponderado = 'Não ponderado', 
+            auxDirecao; 
+
+            Graph.forEachNode(function(node){
+                numeroVertices++; 
+            });
+
+            Graph.forEachLink(function(link){
+                numeroArestas++; 
+                if(link.data != 1){
+                    ponderado = 'ponderado'; 
+                }
+            });
+
+            if(numeroVertices == 0){
+                $('#conteudoModalInfo').empty(); 
+                $('#conteudoModalInfo').append('<div class="alert alert-warning" role="alert"> Não existe nenhum vértice </div>');
+            }else {
+                //Limpando o alerta
+                $('#conteudoModalInfo').empty(); 
+
+                //Info dos vértices 
+                $('#numeroVertices').empty(); 
+                $('#numeroVertices').append('Número vértices: ' + numeroVertices); 
+
+                //Info das arestas 
+                $('#numeroArestas').empty(); 
+                $('#numeroArestas').append("Número de arestas: " + numeroArestas);
+
+                //titulo da lista de adjacencia
+                $('#tituloTabelaInfo').empty(); 
+                $('#tituloTabelaInfo').append('<h1 class="text-center"> Lista de adjacências </h1>');
+               if(Direcional()){
+                    auxDirecao = 'direcional';
+               } else auxDirecao = 'não direcional';
+               $('#tituloTabelaInfo').append('<h5 class="text-center"> Grafo '+auxDirecao+' e '+ponderado+' </h5>');
+
+                //Montando o head da tabela
+                $('#listaAdjacenciaHead').empty(); 
+                $('#listaAdjacenciaHead').append('<th> Vértice </th>');                 
+                //Lista os vértices e as suas conexões 
+                $('#listaAdjacenciaBody').empty(); 
+                Graph.forEachNode(function(node){
+                    $('#listaAdjacenciaBody').append('<tr id="verticeInfo'+node.id+'"> <td> '+node.id+' </td> </tr>');
+                    Graph.forEachLinkedNode(node.id.toString(),function(linkedNode,aresta){
+                        if(Direcional() == false || (Direcional() == true && (node.id == aresta.fromId))){   //Verificando se é direcional ou não
+                            $('#verticeInfo'+node.id+'').append('<td>'+linkedNode.id+' ( Peso: '+aresta.data+ ') </td>')
+                        }
+                    });
+                });               
+
+
+            }
+            console.log("Numero de vértices: " + numeroVertices + " Numero de arestas: " + numeroArestas);
     }
     
 
@@ -242,5 +328,3 @@
             $('#sidebar').toggleClass('active');
         });
     });
-
-
