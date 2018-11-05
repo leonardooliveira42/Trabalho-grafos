@@ -42,7 +42,9 @@
             $('#aviso_ordenacao').empty(); 
                 if(numeroVertices != 0){
                     if(Direcional()){
-                        console.log("Grafo direcional");
+                        Graph.forEachNode(function(node){
+                            $('#listaIniciaOrdenacao').append('<option value=' + node.id + '> ' + node.id +' </option>');
+                        });          
                     }else {                        
                         $("#aviso_ordenacao").append('<div class="alert alert-warning" role="alert"> O grafo precisa ser direcional! </div>');
                     }
@@ -349,11 +351,17 @@
     }
     function MostrarLinks(){
         console.dir(Links);
-    }
-
-    
+    }    
 
     function OrdenacaoTopologica(){
         console.log("Ordenacao topologica"); 
+        if(Direcional()){
+            console.log("Direcional, começando algoritmo"); 
+
+            //Marcar a quantidade de arestas que chegam no nó 
+
+        }else {
+            console.log("não direcional, faz nada"); 
+        }
     }
 
