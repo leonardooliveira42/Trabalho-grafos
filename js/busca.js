@@ -6,6 +6,7 @@
 
     var ContLinks = 0; 
     var Links = [];
+    var vetorOrdenacaoTopologica = [];
 
     function InicialBusca(tipoBusca){
         var numeroVertices = 0;
@@ -13,19 +14,19 @@
             numeroVertices++; 
         });
         switch(tipoBusca){
-            case 1: //listando os vértices no modal da busca em profundidade
+            case 1:{            //listando os vértices no modal da busca em profundidade
                 $('#listaIniciaProfundidade').empty(); 
                 Graph.forEachNode(function(node){
                     $('#listaIniciaProfundidade').append('<option value=' + node.id + '> ' + node.id +' </option>');
                 });
-                break; 
-            case 2:     //Listando os vértices no modal da busca em largura 
+                break; }
+            case 2:{            //Listando os vértices no modal da busca em largura 
                 $('#listaIniciaLargura').empty(); 
                 Graph.forEachNode(function(node){
                     $('#listaIniciaLargura').append('<option value=' + node.id + '> ' + node.id +' </option>');
                 });
-                break; 
-            case 3:                 
+                break; }
+            case 3:{            //Listando os vértices no modal do algoritmo Dijkstra
                 if(numeroVertices != 0){
                     $('#aviso').empty(); 
                     $('#listaIniciaDijkstra').empty(); 
@@ -36,15 +37,45 @@
                     $('#aviso').empty(); 
                     $("#aviso").append('<div class="alert alert-warning" role="alert"> Não existe grafo! </div>');
                 }
-                break; 
-            case 4: 
-            $('#aviso_ordenacao').empty(); 
-            $('#aviso_ordenacao').empty(); 
+                break; }
+            case 4:{            //Listando os vértices que possuem 0 arestas chegando neles, no modal da Ordenação Topológica
+                LimparOrdenacao();  
                 if(numeroVertices != 0){
+                    var ciclagem = true; 
                     if(Direcional()){
-                        Graph.forEachNode(function(node){
-                            $('#listaIniciaOrdenacao').append('<option value=' + node.id + '> ' + node.id +' </option>');
-                        });          
+                        //Aqui será marcado o quanto de arestas que chegam em cada vértice 
+                        
+                        MarcandoArestasDosVertices(); 
+
+                        console.log(vetorOrdenacaoTopologica);
+
+                        $('#listaIniciaOrdenacao').empty();   
+                        $('#vetorVerticesOrdenacaoInfo').empty(); 
+                        $('#vetorOrdenacaoInfo').empty();                       
+
+                        for(var i=0; i<contador;  i++){
+                            if(i == 0 )
+                                $('#vetorVerticesOrdenacaoInfo').append('<th> Vértice: </th>')
+                            $('#vetorVerticesOrdenacaoInfo').append('<th>'+ i + '</th>')
+                        }
+                        for(var i=0; i<vetorOrdenacaoTopologica.length; i++){
+                            if(i == 0){
+                                $('#vetorOrdenacaoInfo').append('<th> |A| que chegam: </th>');
+
+                            }
+                            $('#vetorOrdenacaoInfo').append('<td> ' + vetorOrdenacaoTopologica[i] +' </td>')
+                            if(vetorOrdenacaoTopologica[i] == 0){
+                                ciclagem = false; 
+                                $('#listaIniciaOrdenacao').append('<option value=' + i + '> ' + i +' </option>');
+                            }   
+                               
+                        }
+                        
+                        if(ciclagem == true){
+                            $("#aviso_ordenacao").append('<div class="alert alert-danger" role="alert"> O grafo cicla! Não é possível realizar a ordenação topologica </div>');
+                        }
+                        
+                                
                     }else {                        
                         $("#aviso_ordenacao").append('<div class="alert alert-warning" role="alert"> O grafo precisa ser direcional! </div>');
                     }
@@ -52,27 +83,28 @@
                     $("#aviso_ordenacao").append('<div class="alert alert-warning" role="alert"> Não existe grafo! </div>');
                 }
                 
-                break; 
+                break; }
         }
     }
 
     //Funções para a busca em profundidade
     function BuscaEmProfundidade(){
-
+        //Entra nessa função quando o botão Iniciar for apertado na busca em profundidade
         Limpar(); 
 
+        //Lê qual foi o vértice selecionado para começar a busca
         var verticeInicial = $('#listaIniciaProfundidade').val(); 
-        var vetorMarcacao = []; 
-        var cont = 0;
-        ContLinks = 0; 
-        Links = [];
+        var vetorMarcacao = [];     //Cria um vetor para marcar qual vértice já foi visitado
+        var cont = 0;               //Variavel para contar a quantidade de vértices no grafo
+        ContLinks = 0;              //Zerando variavel global, iterador do vetor Links
+        Links = [];                 //Vetor Links, que grava a origem e destino de certa passagem do tipo de busca
 
         //Conta a quantidade de vértices: 
         Graph.forEachNode(function(node){
             cont++; 
         });
 
-        //Zerando o vetor cont(|v|) vezes 
+        //Zerando o vetor marcacao (|v|) vezes 
         for(var i=0; i<cont; i++){
             vetorMarcacao[i] = 0;
         }
@@ -89,16 +121,19 @@
         vetor[vertice] = 1; 
 
         Graph.forEachLinkedNode(vertice , function(VerticeConectado,aresta){
+            //Só executa o conteúdo do if se o vértice linkado não estiver marcado
             if(vetor[VerticeConectado.id] == 0){
                 //Se não for direcional ele executa normalmente
                 //Se for direcional ele só entra se o vértice atual for a origem do link
                 if(Direcional() == false || (Direcional() == true && (aresta.fromId == vertice))){ 
-                        Links[ContLinks] = {
+                    //Salva a passagem do vértice atual para o próximo vértice
+                    Links[ContLinks] = {
                         "fromId": vertice, 
                         "toId":VerticeConectado.id
                     }; 
-                    ContLinks++; 
+                    ContLinks++; //Incrementa no iterador do vetor Links
                     
+                    //Chama a função novamente com o vértice destino como vértice inicial 
                     RecursaoProfundidade(VerticeConectado.id.toString(),vetor,contador);
                 }
             }
@@ -166,6 +201,7 @@
         }
     }
 
+    //Funções para Dijkstra
     function Dijkstra(){
         var verticeInicial = $('#listaIniciaDijkstra').val(),
             lista = new List(contador), 
@@ -241,6 +277,90 @@
             }
                 
         }       
+    }
+
+    //Funções para Ordenação topologica
+    function OrdenacaoTopologica(){
+        if(Direcional()){
+            var verticeInicial = $('#listaIniciaOrdenacao').val(), 
+                vetorMarcacao = []; 
+
+                Links = []; 
+                ContLinks = 0; 
+
+                for(var i=0; i<contador; i++){
+                    vetorMarcacao[i] = 0; 
+                }
+
+                MarcandoArestasDosVertices(); 
+
+                Links[ContLinks] = {
+                    'fromId': 'ponta', 
+                    'toId': verticeInicial
+                };
+                ContLinks++; 
+                RecursaoOrdenacao(verticeInicial,vetorMarcacao);
+
+                for(var i=0; i<contador; i++){
+                    if(vetorMarcacao[i] == 0){
+                        if(vetorOrdenacaoTopologica[i] == 0){
+                            Links[ContLinks] = {
+                                'fromId': 'ponta', 
+                                'toId': i
+                            };
+                            ContLinks++; 
+                            RecursaoOrdenacao(i,vetorMarcacao);
+                        }
+                    }
+                }                
+                ResultadoNaTelaOrdenacao(); 
+
+        }else {
+            $('#aviso_ordenacao_comeco').empty(); 
+            $('#aviso_ordenacao_comeco').append('<div class="alert alert-warning" role="alert"> Não é possível começar a Ordenação! </div>');
+        }
+    }
+
+    function RecursaoOrdenacao(vertice, vetorMarcacao){
+
+        //Marcando o vértice atual 
+        vetorMarcacao[vertice] = 1; 
+
+        Graph.forEachLinkedNode(vertice.toString(), function(linkedNode, aresta){
+            if(aresta.toId == linkedNode.id){
+                vetorOrdenacaoTopologica[linkedNode.id]--; 
+            }
+        });
+
+        Graph.forEachLinkedNode(vertice.toString(), function(linkedNode, aresta){
+            if(vetorOrdenacaoTopologica[linkedNode.id] == 0 && vetorMarcacao[linkedNode.id] == 0){
+                Links[ContLinks] = {
+                    'fromId': vertice, 
+                    'toId': linkedNode.id
+                };
+                ContLinks++; 
+                RecursaoOrdenacao(linkedNode.id,vetorMarcacao);
+            }
+        });
+    }
+
+    function ResultadoNaTelaOrdenacao(){
+
+        //Limpar resultados
+        $('#ResultadosOrdenacao').empty(); 
+        $('#thead_ordenacao').empty(); 
+        $('#tbody_ordenacao').empty(); 
+
+        //Escrever os dados
+        $('#ResultadosOrdenacao').append("Passagens"); 
+
+        $('#thead_ordenacao').append('<tr> <th> Passagem </th> <th> De: </th> <th> Para: </th> </tr> ');
+
+        for(var i=0; i<Links.length; i++){
+            $('#tbody_ordenacao').append('<tr>');
+            $('#tbody_ordenacao').append('<th> '+i+'</th> <td> '+ Links[i].fromId +' </td> <td> '+ Links[i].toId + '</td>');
+            $('#tbody_ordenacao').append('</tr>');
+        }
     }
 
     //Função para mostrar os resultados da busca nos modals de cada tipo de busca
@@ -348,20 +468,32 @@
 
         $('#thead_dijkstra_dist').empty(); 
         $('#tbody_dijkstra_dist').empty(); 
+    } 
+
+    function LimparOrdenacao(){
+        $('#aviso_ordenacao').empty(); 
+        $('#aviso_ordenacao_comeco').empty(); 
+        $('#vetorVerticesOrdenacaoInfo').empty(); 
+        $('#vetorOrdenacaoInfo').empty();  
+        $('#ResultadosOrdenacao').empty(); 
+        $('#thead_ordenacao').empty(); 
+        $('#tbody_ordenacao').empty();         
     }
-    function MostrarLinks(){
-        console.dir(Links);
-    }    
 
-    function OrdenacaoTopologica(){
-        console.log("Ordenacao topologica"); 
-        if(Direcional()){
-            console.log("Direcional, começando algoritmo"); 
 
-            //Marcar a quantidade de arestas que chegam no nó 
+    function MarcandoArestasDosVertices(){
 
-        }else {
-            console.log("não direcional, faz nada"); 
+        for(var i=0; i<contador; i++){
+            vetorOrdenacaoTopologica[i] = 0; 
         }
+
+        Graph.forEachNode(function(node){
+            Graph.forEachLinkedNode(node.id.toString(),function(linkedNode, link){
+                if(node.id == link.toId){
+                    vetorOrdenacaoTopologica[node.id]++; 
+                }
+            });
+        });
     }
+    
 
