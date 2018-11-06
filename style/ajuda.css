@@ -1,0 +1,7 @@
+body{
+    position: relative;
+}
+.footer {
+    height: 100px;
+    background: black;
+}

@@ -9,6 +9,10 @@
     //Chamando função para configurar o grafo 
     ConfigurarGrafico(); 
 
+    function PaginaTeoria(){
+        alert("Página ainda não implementada!");
+    }
+
     //Funções para manipular o grafo 
     function InserirVertice (){     //função para inserir um novo vértice
 
