@@ -14,7 +14,12 @@
         <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
 </head>
     <body>        
-        <nav id="navbar-example2" class="navbar fixed-top navbar-dark bg-dark">
+      <div class="wrapper">
+         <nav id="navbar-example2" class="navbar navbar-expand-lg  fixed-top navbar-dark bg-dark">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerTeoria" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarTogglerTeoria">
             <a class="navbar-brand" href="./index.html"> Manipular Grafos </a>
             <ul class="nav nav-pills">
               <li class="nav-item">
@@ -38,7 +43,9 @@
               </li>
 
             </ul>
+          </div>
           </nav>
+        </div>
           <div class='container' data-spy="scroll" data-target="#navbar-example2" data-offset="0">
             <div id="introducao">
             <h4 class="display-2 text-center"> Teoria dos Grafos </h4>
@@ -48,13 +55,13 @@
               um subconjunto de pares não ordenados de V. </p>
 
               <div class="row">
-                <div class="col ml-100">
+                <div class="col-sm-12 col-lg-6">
                   <figure class="figure">
                     <img id='grafo1'src="./imgs/grafo.gif" class="figure-img img-fluid rounded" alt="A generic square placeholder image with rounded corners in a figure.">
                     <figcaption class="figure-caption"> Um exemplo de grafo.</figcaption>
                   </figure>
                 </div>
-                <div class="col mr-100">
+                <div class="col-sm-12 col-lg-6">
                     <figure class="figure">
                       <img id="grafo2" src="./imgs/grafo_da_viagem.jpg" alt="" class="figure-img img-fluid rounded">
                       <figcaption class="figure-caption"> Um grafo direcional sendo aplicado num problema de distância.</figcaption>
@@ -143,10 +150,10 @@
                     de lavar deve terminar antes de se poder colocar as roupas para secar). Uma ordenação topológica dá uma 
                     ordem na qual se possa realizar os trabalhos.</p>
                     <div class="row">
-                      <div class="col">
+                      <div class="col-sm-12 col-lg-6">
                         <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Directed_acyclic_graph.png" alt="" class="img-fluid rounded mx-auto d-block">
                       </div>
-                      <div class="col">
+                      <div class="col-sm-12 col-lg-6">
                         <p> O grafo mostrado à esquerda tem muitas ordenações, incluindo: </p>
                         <ul>
                           <li>7, 5, 3, 11, 8, 2, 9, 10 (visual esquerda-para-direita, de-cima-para-baixo)</li>
@@ -176,12 +183,12 @@
                   Arestas que ligam vértices já pertencentes a S são desconsideradas.</p>
 
                   <div class="row">
-                    <div class="col">
+                    <div class="col-sm-12 col-lg-6">
                       <p> Um exemplo prático do problema que pode ser resolvido pelo algoritmo de Dijkstra é: 
                         alguém precisa se deslocar de uma cidade para outra. Para isso, ela dispõe de várias estradas, 
                         que passam por diversas cidades. Qual delas oferece uma trajetória de menor caminho?</p>
                     </div>
-                    <div class="col">
+                    <div class="col-sm-12 col-lg-6">
                         <img src="https://upload.wikimedia.org/wikipedia/commons/5/57/Dijkstra_Animation.gif" alt="" class="img-fluid rounded mx-auto d-block">
                     </div>
                   </div>
@@ -192,7 +199,7 @@
 
           <div id="explicacao-trab">
       
-            <div class="display-4 text-center"> Estrutura de Dados II </div>
+            <div class="display-4 text-center" id='edii'> Estrutura de Dados II </div>
             <!-- Arrumar espaçamento -->
             
             <p> Este é um <a href="./index.html"> trabalho</a>  feito para a máteria de <strong> Estrutura de Dados II </strong> ministrada pela 
@@ -239,7 +246,7 @@
           <div class="row">
             <div class="col-lg-3 col-md-6 col-sm-12">
               <div class="card text-white bg-success">
-                  <img src="./imgs/exemplos-me.JPG" alt="Aba exemplos do trabalho" class="card-img-top">
+                  <img src="./imgs/exemplos-me.jpg" alt="Aba exemplos do trabalho" class="card-img-top">
                   <div class="card-body">
                     <h4 class="card-title">Exemplos</h4> 
                     <p class="card-text"> O trabalho permite que você possa criar o seu próprio grafo, porém já existem alguns Exemplos
@@ -304,13 +311,13 @@
 
              <div class="container">
                 <div class="row">
-                  <div class="col">
+                  <div class="col-sm-12 col-lg-6">
                       <figure class="figure">
                           <img src="./imgs/exemplo-grafo.JPG" class="figure-img img-fluid rounded" >
                           <figcaption class="figure-caption"> Este é um grafo direcional e ponderado, gerado pelo trabalho.</figcaption>
                         </figure>
                   </div>
-                  <div class="col">
+                  <div class="col-sm-12 col-lg-6">
                       <figure class="figure">
                           <img src="./imgs/dígrafo-ponderado.jpg" class="figure-img img-fluid rounded" >
                           <figcaption class="figure-caption"> Esta é a forma que um grafo direcional e ponderado deveria ser mostrada </figcaption>
