@@ -1,7 +1,14 @@
 body{
+    margin-top: 80px; 
     position: relative;
 }
 .footer {
     height: 100px;
     background: black;
+}
+
+#grafo1, #grafo2{
+    max-width: 300px;
+    margin: auto; 
+    display: block;
 }

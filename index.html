@@ -32,24 +32,30 @@
 
             <ul class="list-unstyled components">
                 <li>
+                    <a href="./ajuda.html"> Teoria dos Grafos </a>
+                </li>
+                <li>
                     <a href="#exemplosSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"> Exemplos </a>
                     <ul class="collapse list-unstyled" id="exemplosSubmenu">
                         <li>
-                            <a href="#" onclick="GerarGrafo(1)"> Exemplo 1 </a>
+                            <a href="#" onclick="GerarGrafo(1)" data-toggle="tooltip" data-placement="left" title="Grafo não ponderado"> Exemplo 1 </a>
                         </li>
                         <li>
-                            <a href="#" onclick="GerarGrafo(2)"> Exemplo 2</a>
+                            <a href="#" onclick="GerarGrafo(2)" data-toggle="tooltip" data-placement="left" title="Exemplo em aula de busca em profundidade, não ponderado"> Exemplo 2</a>
                         </li>
                         <li>
-                            <a href="#" onclick="GerarGrafo(3)"> Exemplo 3</a>
+                            <a href="#" onclick="GerarGrafo(3)" data-toggle="tooltip" data-placement="left" title="Exemplo de busca em largura e Dijkstra, Ponderado!"> Exemplo 3</a>
                         </li>
                         <li>
-                            <a href="#" onclick="GerarGrafo(4)"> Exemplo 4</a>
+                            <a href="#" onclick="GerarGrafo(4)" data-toggle="tooltip" data-placement="left" title="Exemplo de Ordenação Topologica, Não ponderado!"> Exemplo 4</a>
                         </li>
                         <li>
-                            <a href="#" onclick="GerarGrafo(5)"> Exemplo 5 </a>
+                            <a href="#" onclick="GerarGrafo(5)"data-toggle="tooltip" data-placement="left" title="Exemplo de Ordenação Topologica, Ponderado!   "> Exemplo 5 </a>
                         </li>
                     </ul>
+                </li>
+                <li>
+                    <a href="#" data-toggle='modal' data-target="#modalInfo" onclick="InformacoesGrafo()"> Informações do grafo </a>
                 </li>
                 <li>
                     <a href="#" onclick="InserirVertice()"> Inserir Vértice </a>
@@ -57,6 +63,23 @@
                 <li>
                     <a href="#" data-toggle="modal" data-target="#inserirArestas" onclick="ListarVertices()"> Conectar Vértices </a>
                 </li>
+                <li>
+                        <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"> Busca </a>
+                        <ul class="collapse list-unstyled" id="pageSubmenu">
+                            <li>
+                                <a href="#" onclick="InicialBusca(1)" data-toggle="modal" data-target="#modalProfundidade" > Busca em Profundidade </a>
+                            </li>
+                            <li>
+                                <a href="#" onclick="InicialBusca(2)" data-toggle="modal" data-target="#modalLargura"> Busca em Largura </a>
+                            </li>
+                            <li>
+                                <a href="#" onclick="InicialBusca(3)" data-toggle="modal" data-target="#modalDijkstra"> Dijkstra </a>
+                            </li>
+                            <li>
+                                <a href="#" onclick="InicialBusca(4)" data-toggle="modal" data-target="#modalOrdenacao"> Ordenação topologica </a>
+                            </li>
+                        </ul>
+                    </li>
                 <li>
                     <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"> Excluir </a>
                     <ul class="collapse list-unstyled" id="homeSubmenu">
@@ -72,30 +95,8 @@
                     </ul>
                 </li>
                 
-                <li>
-                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"> Busca </a>
-                    <ul class="collapse list-unstyled" id="pageSubmenu">
-                        <li>
-                            <a href="#" onclick="InicialBusca(1)" data-toggle="modal" data-target="#modalProfundidade" > Busca em Profundidade </a>
-                        </li>
-                        <li>
-                            <a href="#" onclick="InicialBusca(2)" data-toggle="modal" data-target="#modalLargura"> Busca em Largura </a>
-                        </li>
-                        <li>
-                            <a href="#" onclick="InicialBusca(3)" data-toggle="modal" data-target="#modalDijkstra"> Dijkstra </a>
-                        </li>
-                        <li>
-                            <a href="#" onclick="InicialBusca(4)" data-toggle="modal" data-target="#modalOrdenacao"> Ordenação topologica </a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#" data-toggle='modal' data-target="#modalInfo" onclick="InformacoesGrafo()"> Informações do grafo </a>
-                </li>
                 
-                <li>
-                    <a href="./ajuda.html"> Ajuda </a>
-                </li>
+                
             </ul>
         </nav>
 
@@ -364,7 +365,7 @@
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col-sm">
-                                    <h5 class="modal-title"> Dijkstra </h5>
+                                    <h5 class="modal-title"> Dijkstra (Ascencio)</h5>
                                 </div>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
@@ -450,6 +451,10 @@
                             <thead id="thead_ordenacao"></thead>
                             <tbody id="tbody_ordenacao"></tbody>
                         </table>
+                        <div class="alert alert-success" role="alert" id="alertOrdenacao"> 
+                            Ordem de visita:  
+                        </div>
+                    
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-dismiss="modal"> Fechar </button>
@@ -483,7 +488,7 @@
                             </div> 
                             <div id="tituloTabelaInfo">
                             </div>
-                            <table class="table table-info">
+                            <table class="table table-bordered">
                                 <thead id="listaAdjacenciaHead">
                                 </thead>
                                 <tbody id="listaAdjacenciaBody">

@@ -15,76 +15,332 @@
 </head>
     <body>        
         <nav id="navbar-example2" class="navbar fixed-top navbar-dark bg-dark">
-            <a class="navbar-brand" href="./index.html">Navbar</a>
+            <a class="navbar-brand" href="./index.html"> Manipular Grafos </a>
             <ul class="nav nav-pills">
               <li class="nav-item">
-                <a class="nav-link" href="#fat">@fat</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#mdo">@mdo</a>
+                <a class="nav-link" href="#introducao"> Teoria dos Grafos</a>
               </li>
               <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"> Buscas </a>
                 <div class="dropdown-menu">
-                  <a class="dropdown-item" href="#one">one</a>
-                  <a class="dropdown-item" href="#two">two</a>
+                  <a class="dropdown-item" href="#profundidade"> Busca em Profundidade </a>
+                  <a class="dropdown-item" href="#largura"> Busca em Largura </a>
+                  <a class="dropdown-item" href="#ordenacao"> Ordenação topológica </a>
                   <div role="separator" class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#three">three</a>
+                  <a class="dropdown-item" href="#Dijkstra"> Algoritmo de Dijkstra </a>
                 </div>
               </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#explicacao-trab"> Estrutura de Dados II  </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#problemas"> Problemas </a>
+              </li>
+
             </ul>
           </nav>
           <div class='container' data-spy="scroll" data-target="#navbar-example2" data-offset="0">
-            <h4 id="fat">@fat</h4>
-            <p> Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nobis et id sequi labore! Veniam veritatis eum temporibus quisquam possimus excepturi aspernatur, eius praesentium nobis numquam porro quidem itaque iste deleniti? 
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nobis et id sequi labore! Veniam veritatis eum temporibus quisquam possimus excepturi aspernatur, eius praesentium nobis numquam porro quidem itaque iste deleniti? 
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nobis et id sequi labore! Veniam veritatis eum temporibus quisquam possimus excepturi aspernatur, eius praesentium nobis numquam porro quidem itaque iste deleniti? 
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nobis et id sequi labore! Veniam veritatis eum temporibus quisquam possimus excepturi aspernatur, eius praesentium nobis numquam porro quidem itaque iste deleniti? 
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nobis et id sequi labore! Veniam veritatis eum temporibus quisquam possimus excepturi aspernatur, eius praesentium nobis numquam porro quidem itaque iste deleniti? 
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nobis et id sequi labore! Veniam veritatis eum temporibus quisquam possimus excepturi aspernatur, eius praesentium nobis numquam porro quidem itaque iste deleniti? 
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nobis et id sequi labore! Veniam veritatis eum temporibus quisquam possimus excepturi aspernatur, eius praesentium nobis numquam porro quidem itaque iste deleniti? 
+            <div id="introducao">
+            <h4 class="display-2 text-center"> Teoria dos Grafos </h4>
+            <p> A teoria dos grafos é um ramo da matemática que estuda as relações entre os objetos de um determinado conjunto. 
+              Para tal são empregadas estruturas chamadas de grafos, <strong> G(V,E) </strong> , onde  <strong>V</strong> é um 
+              conjunto não vazio de objetos denominados vértices (ou nós) e <strong> E </strong> (do inglês <i>Edges</i>  - arestas) é 
+              um subconjunto de pares não ordenados de V. </p>
+
+              <div class="row">
+                <div class="col ml-100">
+                  <figure class="figure">
+                    <img id='grafo1'src="./imgs/grafo.gif" class="figure-img img-fluid rounded" alt="A generic square placeholder image with rounded corners in a figure.">
+                    <figcaption class="figure-caption"> Um exemplo de grafo.</figcaption>
+                  </figure>
+                </div>
+                <div class="col mr-100">
+                    <figure class="figure">
+                      <img id="grafo2" src="./imgs/grafo_da_viagem.jpg" alt="" class="figure-img img-fluid rounded">
+                      <figcaption class="figure-caption"> Um grafo direcional sendo aplicado num problema de distância.</figcaption>
+                    </figure>
+                </div>
+              </div>      
+            <p> Dependendo da aplicação, arestas podem ou não ter direção, pode ser permitido ou não arestas ligarem um vértice 
+              a ele próprgrafo trivial.io e vértices e/ou arestas podem ter um peso (numérico) associado. Se as arestas têm uma 
+              direção associada (indicada por uma seta na representação gráfica) temos um <strong>dígrafo</strong>  (grafo orientado). 
+              Um grafo com um único vértice e sem arestas é conhecido como <strong> grafo trivial. </strong> </p>             
+           
+            <p> Estruturas que podem ser representadas por grafos estão em toda parte e muitos problemas de interesse prático 
+              podem ser formulados como questões sobre certos grafos. Por exemplo, a estrutura de ligações da Wikipédia pode 
+              ser representada por um dígrafo: os vértices são os artigos da Wikipédia e existe uma aresta do artigo A para o 
+              artigo B se e somente se A contém um link para B. Dígrafos são também usados para representar <a class='link'href="https://pt.wikipedia.org/wiki/M%C3%A1quina_de_estados_finita">máquinas de estado finito.</a>  </p>
+            
+            <p> Fonte: <a href="https://pt.wikipedia.org/wiki/Teoria_dos_grafos"> Wikipédia </a></p>
+
+            <h1> Operações com grafos </h1>
+
+            <p> As operações <strong> básicas </strong> com grafos são: </p>
+            <ul>
+              <li> Inserir Vértice </li>
+              <li> Inserir Aresta </li>
+              <li> Remover Aresta </li>
+              <li> Remover vértice </li>
+              <li> Verificar se existe aresta entre os vértices <i> x</i> e <i>y</i></li>
+              <li> <strong>Encontrar todos os vértices adjacentes </strong>  </li>
+            </ul>
+          </div>
+
+          <div id="buscas">
+              <h1> Algoritmos de busca </h1>
+
+                <p> Os algoritmos de busca de grafos tem como caracteristica a visita sistematicamente de 
+                  todos os vértices do grafo. 
+                  Alguns tipos deles são: 
+                </p>
+
+                <ul>
+                  <li> Busca em Profundidade </li>
+                  <li> Busca em Largura </li>
+                  <li> Ordenação Topologica </li>
+                </ul>
               
-            </p>
-            <h4 id="mdo">@mdo</h4>
-            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nobis et id sequi labore! Veniam veritatis eum temporibus quisquam possimus excepturi aspernatur, eius praesentium nobis numquam porro quidem itaque iste deleniti? 
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nobis et id sequi labore! Veniam veritatis eum temporibus quisquam possimus excepturi aspernatur, eius praesentium nobis numquam porro quidem itaque iste deleniti? 
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nobis et id sequi labore! Veniam veritatis eum temporibus quisquam possimus excepturi aspernatur, eius praesentium nobis numquam porro quidem itaque iste deleniti? 
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nobis et id sequi labore! Veniam veritatis eum temporibus quisquam possimus excepturi aspernatur, eius praesentium nobis numquam porro quidem itaque iste deleniti? 
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nobis et id sequi labore! Veniam veritatis eum temporibus quisquam possimus excepturi aspernatur, eius praesentium nobis numquam porro quidem itaque iste deleniti? 
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nobis et id sequi labore! Veniam veritatis eum temporibus quisquam possimus excepturi aspernatur, eius praesentium nobis numquam porro quidem itaque iste deleniti? 
-              </p>
-            <h4 id="one">one</h4>
-            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nobis et id sequi labore! Veniam veritatis eum temporibus quisquam possimus excepturi aspernatur, eius praesentium nobis numquam porro quidem itaque iste deleniti? 
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nobis et id sequi labore! Veniam veritatis eum temporibus quisquam possimus excepturi aspernatur, eius praesentium nobis numquam porro quidem itaque iste deleniti? 
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nobis et id sequi labore! Veniam veritatis eum temporibus quisquam possimus excepturi aspernatur, eius praesentium nobis numquam porro quidem itaque iste deleniti? 
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nobis et id sequi labore! Veniam veritatis eum temporibus quisquam possimus excepturi aspernatur, eius praesentium nobis numquam porro quidem itaque iste deleniti? 
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nobis et id sequi labore! Veniam veritatis eum temporibus quisquam possimus excepturi aspernatur, eius praesentium nobis numquam porro quidem itaque iste deleniti? 
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nobis et id sequi labore! Veniam veritatis eum temporibus quisquam possimus excepturi aspernatur, eius praesentium nobis numquam porro quidem itaque iste deleniti? 
-              </p>
-            <h4 id="two">two</h4>
-            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nobis et id sequi labore! Veniam veritatis eum temporibus quisquam possimus excepturi aspernatur, eius praesentium nobis numquam porro quidem itaque iste deleniti? 
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nobis et id sequi labore! Veniam veritatis eum temporibus quisquam possimus excepturi aspernatur, eius praesentium nobis numquam porro quidem itaque iste deleniti? 
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nobis et id sequi labore! Veniam veritatis eum temporibus quisquam possimus excepturi aspernatur, eius praesentium nobis numquam porro quidem itaque iste deleniti? 
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nobis et id sequi labore! Veniam veritatis eum temporibus quisquam possimus excepturi aspernatur, eius praesentium nobis numquam porro quidem itaque iste deleniti? 
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nobis et id sequi labore! Veniam veritatis eum temporibus quisquam possimus excepturi aspernatur, eius praesentium nobis numquam porro quidem itaque iste deleniti? 
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nobis et id sequi labore! Veniam veritatis eum temporibus quisquam possimus excepturi aspernatur, eius praesentium nobis numquam porro quidem itaque iste deleniti? 
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nobis et id sequi labore! Veniam veritatis eum temporibus quisquam possimus excepturi aspernatur, eius praesentium nobis numquam porro quidem itaque iste deleniti? 
-              </p>
-            <h4 id="three">three</h4>
-            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nobis et id sequi labore! Veniam veritatis eum temporibus quisquam possimus excepturi aspernatur, eius praesentium nobis numquam porro quidem itaque iste deleniti? 
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nobis et id sequi labore! Veniam veritatis eum temporibus quisquam possimus excepturi aspernatur, eius praesentium nobis numquam porro quidem itaque iste deleniti? 
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nobis et id sequi labore! Veniam veritatis eum temporibus quisquam possimus excepturi aspernatur, eius praesentium nobis numquam porro quidem itaque iste deleniti? 
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nobis et id sequi labore! Veniam veritatis eum temporibus quisquam possimus excepturi aspernatur, eius praesentium nobis numquam porro quidem itaque iste deleniti? 
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nobis et id sequi labore! Veniam veritatis eum temporibus quisquam possimus excepturi aspernatur, eius praesentium nobis numquam porro quidem itaque iste deleniti? 
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nobis et id sequi labore! Veniam veritatis eum temporibus quisquam possimus excepturi aspernatur, eius praesentium nobis numquam porro quidem itaque iste deleniti? 
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nobis et id sequi labore! Veniam veritatis eum temporibus quisquam possimus excepturi aspernatur, eius praesentium nobis numquam porro quidem itaque iste deleniti? 
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nobis et id sequi labore! Veniam veritatis eum temporibus quisquam possimus excepturi aspernatur, eius praesentium nobis numquam porro quidem itaque iste deleniti? 
-              </p>
+              <h2 id='profundidade'> Busca em Profundidade </h2>
+
+              <p> Formalmente, um algoritmo de busca em profundidade realiza uma busca não-informada que progride
+                 através da expansão do primeiro vértice do grafo , e se aprofunda cada vez mais, até que 
+                 o alvo da busca seja encontrado ou até que ele se depare com um vértice que não possui arestas. 
+                 Então a busca retrocede (backtrack) e começa no próximo vértice.</p>
+
+                 <img src="./imgs/Depthfirst.png" alt="Busca em profundidade" class="img-fluid rounded mx-auto d-block" style="max-width: 300px">
+
+                 <p> Fonte: <a href="https://pt.wikipedia.org/wiki/Busca_em_profundidade"> Wikipédia </a></p>
+
+              <h2 id='largura'> Busca em Largura </h2>
+
+              <p> Formalmente, uma busca em largura é um método de busca não-informada (ou desinformada) que expande e 
+                 examina sistematicamente todos os vértices de um grafo direcionado ou não-direcionado. Em outras palavras,
+                 podemos dizer que o algoritmo realiza uma busca exaustiva num grafo passando por todas as arestas e vértices
+                 do grafo. Sendo assim, o algoritmo deve garantir que nenhum vértice ou aresta será visitado mais de uma vez
+                 e, para isso, utiliza uma estrutura de dados fila para garantir a ordem de chegada dos vértices. Dessa maneira,
+                  as visitas aos vértices são realizadas através da ordem de chegada na estrutura fila e um vértice que já foi 
+                  marcado não pode entrar novamente a esta estrutura. </p>
+
+               <p>Uma analogia muito conhecida (figura a baixo) para demonstrar o funcionamento do algoritmo é 
+                  pintando os vértices de branco, cinza e preto. Os vértices na cor branca ainda não foram marcados e nem 
+                  enfileirados, os da cor cinza são os vértices que estão na estrutura fila e os pretos são aqueles que já 
+                  tiveram todos os seus vértices vizinhos enfileirados e marcados pelo algoritmo.</p>
+
+                <img src="https://upload.wikimedia.org/wikipedia/commons/9/99/Breadth-first_search_Algorithm.gif" alt="" class="img-fluid rounded mx-auto d-block">
+
+                <p> Fonte: <a href="https://pt.wikipedia.org/wiki/Busca_em_largura"> Wikipédia </a> </p>
+
+                <h2 id='ordenacao'> Ordenação Topologica </h2>
+
+                <p>ordenação topológica de um digrafo acíclico (DAG) é uma ordem linear de seus nós em que cada nó 
+                  vem antes de todos nós para os quais este tenha arestas de saída. Cada DAG tem uma ou mais ordenações topológicas.</p>
+
+                <p> A aplicação canônica da ordenação topológica (ordem topológica) está na programação de uma sequência de trabalhos ou
+                  tarefas; tem uso potencial todas as vezes em que o problema abordado envolve uma ordem parcial. Algoritmos de 
+                  ordenação topológica começaram a ser estudados no início dos anos 1960 no contexto da técnica <a href="https://pt.wikipedia.org/wiki/PERT">PERT</a>
+                    para a agendamento de tarefas em gerenciamento de projetos. Os trabalhos são representados por vértices, e existe uma aresta de x para
+                   y se o trabalho x deve estar concluído antes do trabalho y poder ser iniciado (por exemplo, ao lavar roupas, a máquina
+                    de lavar deve terminar antes de se poder colocar as roupas para secar). Uma ordenação topológica dá uma 
+                    ordem na qual se possa realizar os trabalhos.</p>
+                    <div class="row">
+                      <div class="col">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Directed_acyclic_graph.png" alt="" class="img-fluid rounded mx-auto d-block">
+                      </div>
+                      <div class="col">
+                        <p> O grafo mostrado à esquerda tem muitas ordenações, incluindo: </p>
+                        <ul>
+                          <li>7, 5, 3, 11, 8, 2, 9, 10 (visual esquerda-para-direita, de-cima-para-baixo)</li>
+                          <li>3, 5, 7, 8, 11, 2, 9, 10 (vértice de menor número disponível primeiro) </li>
+                          <li> 3, 7, 8, 5, 11, 10, 2, 9</li>
+                          <li>5, 7, 3, 8, 11, 10, 9, 2 (menor número de arestas primeiro)</li>
+                          <li>7, 5, 11, 3, 10, 8, 9, 2 (vértice de maior número disponível primeiro)</li>
+                          <li>7, 5, 11, 2, 3, 8, 9, 10</li>
+                        </ul>
+                      </div>
+                    </div>
+
+                    <p> Fonte: <a href="https://pt.wikipedia.org/wiki/Ordena%C3%A7%C3%A3o_topol%C3%B3gica"> Wikipédia </a> </p>
+
+                <h6> Um algoritmo extra: </h6>
+                <h2 id='Dijkstra'> Algoritmo de Dijkstra </h2>
+
+                <p>O algoritmo de Dijkstra, concebido pelo cientista da computação holandês Edsger Dijkstra em 1956 e publicado
+                   em 1959,[1][2] soluciona o problema do caminho mais curto num grafo dirigido ou não dirigido com arestas de 
+                   peso não negativo, em tempo computacional O([m+n]log n) onde m é o número de arestas e n é o número de vértices.
+                    O algoritmo que serve para resolver o mesmo problema em um grafo com pesos negativos é o algoritmo de 
+                    Bellman-Ford, que possui maior tempo de execução que o Dijkstra.</p>
+
+                <p> O algoritmo considera um conjunto S de menores caminhos, iniciado com um vértice inicial I. A cada passo do 
+                  algoritmo busca-se nas adjacências dos vértices pertencentes a S aquele vértice com menor distância relativa a 
+                  I e adiciona-o a S e, então, repetindo os passos até que todos os vértices alcançáveis por I estejam em S. 
+                  Arestas que ligam vértices já pertencentes a S são desconsideradas.</p>
+
+                  <div class="row">
+                    <div class="col">
+                      <p> Um exemplo prático do problema que pode ser resolvido pelo algoritmo de Dijkstra é: 
+                        alguém precisa se deslocar de uma cidade para outra. Para isso, ela dispõe de várias estradas, 
+                        que passam por diversas cidades. Qual delas oferece uma trajetória de menor caminho?</p>
+                    </div>
+                    <div class="col">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/57/Dijkstra_Animation.gif" alt="" class="img-fluid rounded mx-auto d-block">
+                    </div>
+                  </div>
+
+                  <p> Fonte: <a href="https://pt.wikipedia.org/wiki/Algoritmo_de_Dijkstra">Wikipédia</a> </p>
+                   
           </div>
-        <footer class="footer">
-          <div class="container">
-            <span class="text-muted"> Teste</span>
+
+          <div id="explicacao-trab">
+      
+            <div class="display-4 text-center"> Estrutura de Dados II </div>
+            <!-- Arrumar espaçamento -->
+            
+            <p> Este é um <a href="./index.html"> trabalho</a>  feito para a máteria de <strong> Estrutura de Dados II </strong> ministrada pela 
+            professora <a href="http://buscatextual.cnpq.br/buscatextual/visualizacv.do?metodo=apresentar&id=K4782537T9">
+              Marcia A. Zanoli Meira e Silva</a>, do curso de Bacharelado em Ciência da computação da Universidade
+            Estadual Paulista "Júlio de Mesquita Filho" <strong> (UNESP) </strong> da cidade de Bauru. </p>
+
+            O trabalho foi desenvolvido utilizando Bootstrap, Javascript e algumas bibliotecas de Javascript. As bibliotecas 
+            utilizadas foram: 
+            <ul>
+              <li> <a href="https://jquery.com/"> Jquery </a> </li>
+              <li> <a href="https://github.com/anvaka/VivaGraphJS"> VivaGraphJs</a> (Gerar e manipular os grafos) </li>
+              <li> <a href=""> Queue.Js </a> (criar e manipular filas) </li>
+              <li> <a href="https://www.devmedia.com.br/criando-uma-lista-generica-de-objetos-no-javascript/25564"> List.js </a> (criar e manipular listas encadeadas) </li>
+            </ul>
           </div>
+
+          <h2> O que o trabalho pode fazer? </h2>
+
+          <p> O trabalho pode realizar as funções básicas de um grafo (inserir vértices, inserir aresta,...)
+            como também pode realizar os 4 algoritmos de busca aqui nesta página mostrados brevemente. 
+          </p>
+
+          <p> O trabalho pode trabalhar com dígrafos ou grafos normais, a imagem a baixo mostra um botão 
+            aonde o usuário pode alterar essa função do grafo. 
+          </p>
+          <img src="./imgs/tempsnip.png" alt="Print do trab" class="img-fluid rounded mx-auto d-block">
+
+          <p> Todos as arestas tem o registo da origem e destino da aresta, porém quando o grafo está com 
+            a opção <i> Não direcional </i> então a origem e destino são ignorados, agindo como se fosse 
+            uma conexão normal do grafo. 
+          </p>
+
+          <h4> Grafos ponderados </h4>
+
+          <p> Os grafos não tem valor de aresta únicos, isso pode ser modificado quando um novo grafo for construido 
+            os pesos de cada aresta podem ser selecionados e com isso ter resultados diferentes nos algoritmos. 
+          </p>
+
+          <img src="./imgs/dist.JPG" alt="" class="img-fluid rounded mx-auto d-block">
+
+          <h5> Outras funções do trabalho </h6>
+
+          <div class="row">
+            <div class="col-lg-3 col-md-6 col-sm-12">
+              <div class="card text-white bg-success">
+                  <img src="./imgs/exemplos-me.JPG" alt="Aba exemplos do trabalho" class="card-img-top">
+                  <div class="card-body">
+                    <h4 class="card-title">Exemplos</h4> 
+                    <p class="card-text"> O trabalho permite que você possa criar o seu próprio grafo, porém já existem alguns Exemplos
+                        pré programados, esses exemplos foram apresentados durante as aulas de Estrutura de Dados II da 
+                        UNESP de Bauru; </p>
+                  </div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-12">
+              <div class="card text-white bg-primary">
+                  <img src="./imgs/lista.jpg" alt="Lista de adjacências" class="card-img-top">
+                  <div class="card-body">
+                      <h4 class="card-title"> Lista de adjacências </h4> 
+                    <p class="card-text"> Algumas informações do grafo podem ser verficadas 
+                      através de uma lista de adjacências, aonde a lista mostra todos os vértices 
+                      do grafo e quais os vértices ao qual ele está conectado. 
+                      Caso o grafo seja direcional, a lista mostrará somente as conexões origem->destino!
+                    </p>
+                  </div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-12">
+                <div class="card text-white bg-info">
+                    <img src="./imgs/profundidade.png" alt="Lista de adjacências" class="card-img-top">
+                    <div class="card-body">
+                        <h4 class="card-title"> Escolha do vértice inicial </h4> 
+                      <p class="card-text"> Você tem a opção de escolher qual será o vértice 
+                        inicial do tipo de busca.
+                      </p>
+                    </div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-6 col-sm-12">
+                  <div class="card text-white bg-danger">
+                      <img src="./imgs/resultado.jpg" alt="Tabela de Resultado" class="card-img-top">
+                      <div class="card-body">
+                          <h4 class="card-title"> Resultados! </h4> 
+                        <p class="card-text"> O algoritmo escolhido, no final de seu processamento 
+                          lhe mostrará uma tabela com todas as passagens que foram feitas, para 
+                          verificar todos os vértices do grafo!
+                        </p>
+                      </div>
+                  </div>
+                </div>
+          </div>  
+
+          <h2> Exclusão </h2>
+
+          <p> O trabalho pode remover, vértices, arestas e até mesmo deletar todo o grafo criado. </p>
+
+          <img src="./imgs/excluir.png" alt="Exclusão" class="img-fluid rounded mx-auto d-block">
+
+          <div id="problemas">
+             <div class="display-3 text-center"> Problemas</div>
+             <h3 class="text-center text-muted"> E atualizações futuras </h3>
+
+             <p> Atualmente o trabalho consegue manipular e buscar nos grafos tanto direcional, como não 
+               direcional, ponderado como não ponderado. Porém, essas informações de origem e destino, e 
+               o peso da aresta não estão aparecendo graficamente no grafo quando ele é gerado. Veja o 
+               exemplo:
+             </p>
+
+             <div class="container">
+                <div class="row">
+                  <div class="col">
+                      <figure class="figure">
+                          <img src="./imgs/exemplo-grafo.JPG" class="figure-img img-fluid rounded" >
+                          <figcaption class="figure-caption"> Este é um grafo direcional e ponderado, gerado pelo trabalho.</figcaption>
+                        </figure>
+                  </div>
+                  <div class="col">
+                      <figure class="figure">
+                          <img src="./imgs/dígrafo-ponderado.jpg" class="figure-img img-fluid rounded" >
+                          <figcaption class="figure-caption"> Esta é a forma que um grafo direcional e ponderado deveria ser mostrada </figcaption>
+                        </figure>
+                  </div>
+                </div>
+             </div>
+
+             <p> Ainda não foi possível a implementação das setas que mostram a direção e do valor da aresta.</p>
+             <p> Porém essas são as proximas atualizações desse projeto! </p>
+             
+             <p> Apesar de não ter as setas mostrando a direção e os pesos das arestas, a lista de adjacências podem trazer 
+               essa informação caso seja necessário, como mostrado abaixo. 
+             </p>
+
+             <figure class="figure">
+                <img src="./imgs/lista-grafo-exemplo.JPG" alt="Lista de adjacências" class="figure-img img-fluid rounded">
+                <figcaption class="figure-caption"> Lista de adjacências do grafo exemplo logo acima </figcaption>
+              </figure>
+
+              <p>Outro detalhe é que não é possível mudar os nomes dos vértices, e nem acrescentar mais dados que 
+                queira. Por enquanto não é possível, por exemplo, colocar nomes de cidades em cada vértice ao invés de
+                numeros, para poder simular um problema real. Isso mudará futuramente!!!
+              </p>
+              <br><br>  
+             
+          </div>
+          
+
+       </div>
             
         </footer>
         <!-- jQuery CDN - Slim version (=without AJAX) -->
