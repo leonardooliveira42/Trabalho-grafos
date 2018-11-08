@@ -97,6 +97,10 @@
         }
     }
 
+    /*********************************************
+     *          ALGORITMOS DE BUSCA 
+     *********************************************/
+
     //Funções para a busca em profundidade
     function BuscaEmProfundidade(){
         //Entra nessa função quando o botão Iniciar for apertado na busca em profundidade
@@ -380,6 +384,9 @@
         });
     }
 
+    /********************************************
+     *      RESULTADOS APRESENTADOS NA TELA     *  
+     *******************************************/
     //Função para mostrar os resultados do algoritmo de ordenação no modal de ordenação 
     function ResultadoNaTelaOrdenacao(){
 
@@ -490,6 +497,10 @@
 
 
     }
+
+    /*****************************************
+     *      LIMPAR DADOS ANTERIORES
+     *****************************************/
 
     //Limpa os dados da busca em Largura e profundidade 
     function Limpar(){

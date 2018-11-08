@@ -1,5 +1,13 @@
 //Js direcionado para a inserção e remoção de nós do grafo 
 
+    //Como ambos os arquivos js estão inseridos no html
+    //As variaveis globais desse arquivo podem ser acessados no outro 
+    //Assim como as funções desse podem ser acessados no outro 
+    //E vice e versa 
+    /*******************************************
+     *            VARIAVEIS GLOBAIS 
+     ******************************************/
+
     //Criando um novo Grafo 
     var Graph = Viva.Graph.graph(); 
     //A variavel contador, será responsável pela contagem dos vértices dos grafos
@@ -13,6 +21,9 @@
     //Aqui futuramente será adicionado as setas indicando origem e destino e os pesos das arestas
     ConfigurarGrafico(); 
 
+    /*********************************************
+     *           MANIPULAÇÃO DO GRAFO            * 
+     ********************************************/
     //Funções para manipular o grafo 
     function InserirVertice (){     //função para inserir um novo vértice
 
@@ -237,7 +248,11 @@
         
     }
 
-//---------------------------------------------------------------
+/***************************************************
+ * 
+ *              GRAFOS EXEMPLOS   
+ * 
+ **************************************************/
 
     //Função para criar grafos pré digitados
     function GerarGrafo(modelos){
