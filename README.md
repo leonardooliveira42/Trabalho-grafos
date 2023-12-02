@@ -47,3 +47,7 @@ Pra rodar o projeto na máquina é possível utilizar:
 
 - Extensão do vscode [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)
 - Tendo node.js na máquina versão superior a 14 e rodar `npx lite-server`
+
+
+[Javascript.com]: https://img.shields.io/badge/Javascript-Code?style=for-the-badge&logo=javascript&logoColor=yellow&color=white
+[Javascript]: https://developer.mozilla.org/pt-BR/docs/Web/JavaScript
